@@ -150,27 +150,7 @@ class AirHockeyEnv(gym.Env):
         self._prev_speed_x = int(self._speed_x)
         self._prev_robot_pos = int(self._robot_pos)
         
-
         self.send_data_new(action)
-
-        '''
-        ## SENDING DATA ##
-        print("action is: {}".format(action))
-        if 0 < action < 6:      # actions 1 - 5 = Move Up
-            sendBuff = self._robot_pos + int(action*3)
-            send(self.SER_cnxn, str(sendBuff))
-        elif 5 < action < 11:   # actions 6 - 10 = Move Down
-            sendBuff = self._robot_pos - int((action-5)*3)
-            send(self.SER_cnxn, str(sendBuff))
-        elif action == 11:
-            self.hit_up = True
-            sendBuff = hit_puck
-            send(self.SER_cnxn, str(sendBuff))
-        elif action == 0:       # action = Do nothing
-            # send(self.SER_cnxn, str(0))
-            pass
-        ## END SENDING DATA ##
-        '''
         
         ## RECEIVING DATA ##
         count = 1
@@ -222,7 +202,6 @@ class AirHockeyEnv(gym.Env):
         reward = (100 - ry_dist) * (0.01 * (100 - rx_dist))
         #print("reward is: {}".format(reward))
         
-        '''
         if ((100 - y_dist) * (0.01 * (100 - x_dist))) > 50:  
             reward += 10
         # print("x_dist: {}, y_dist: {}, x_speed: {}".format(x_dist, y_dist, self._speed_x))
@@ -246,7 +225,7 @@ class AirHockeyEnv(gym.Env):
             # Subtract from reward if hit action is chosen while puck is not close
             reward -= 500
             pass
-        '''
+        
         
         # print("x_dist: {} x_speed: {} y_dist: {} y_speed: {}".format(x_dist, self._speed_x, y_dist, self._speed_y))
         # Complete Episode when puck crosses robot axis
